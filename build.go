@@ -1,15 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"syscall/js"
 	"time"
 )
 
 func clock() {
 	now := time.Now()
-	fmt.Println(now)
+
+	date := js.Global().Get("Date").New(now.Unix() * 1000)
+	js.Global().Get("document").Call("getElementById", "clock").Set("innerHTML", date)
 }
 
 func main() {
 	clock()
+	select {}
 }
